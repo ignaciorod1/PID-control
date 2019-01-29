@@ -11,13 +11,13 @@ motor::motor(){
 	stop = 0;
 }
 
-void motor::set_pins(int pwm_PIN, int in1 , int in2){
+void motor::setPins(int pwm_PIN, int in1 , int in2){
 	pwm_pin = pwm_PIN;
 	IN2_pin = in2;
 	IN1_pin = in1;
 }
 
-void motor::set_dir(int d){
+void motor::setDir(int d){
 	dir = d;
 	if (!stop){
 		if(!dir){
@@ -35,7 +35,7 @@ void motor::set_dir(int d){
 	}
 }
 
-void motor::set_pwm(int p){
+void motor::setPwm(int p){
 	pwm = p;
 }
 
@@ -49,4 +49,26 @@ void motor::stops(){
 
 void motor::resume(){
 	stop = 0;
+}
+
+bool motor::getDir(){
+	return dir;
+}
+
+void motor::toggleDir(){
+	dir =! dir;
+	if (!stop){
+		if(!dir){
+			digitalWrite(IN1_pin, 1);
+			digitalWrite(IN2_pin, 0);
+		}
+		else{
+			digitalWrite(IN1_pin, 0);
+			digitalWrite(IN2_pin, 1);
+		}		
+	}
+	else{
+		digitalWrite(IN1_pin, 1);
+		digitalWrite(IN2_pin, 1);
+	}
 }
