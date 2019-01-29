@@ -21,7 +21,7 @@ void homing(){
   if(end_flag)
       mot.stops();
   else
-    mot.setPwm(150);
+    mot.setPwm(75);
 }
 
 void setup() {
@@ -32,8 +32,8 @@ void setup() {
 
   enc.setPin(enc_pin);
   mot.setPins(pwm_pin, in1_pin, in2_pin);
-  mot.setDir(0);
-  enc.setDir(0);
+  mot.setDir(1);
+  enc.setDir(1);
 }
 
 void loop() {
