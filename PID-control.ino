@@ -6,19 +6,29 @@
 #define in1_pin 6
 #define in2_pin 7
 #define enc_pin 8
+#define endstop_pin 12
 
 encoder enc;
 motor mot;
 
-int i = 50;
-int j = 0;
+bool init_flag = false;
+volatile bool end_flag = false;
+
+void endstopPressed(){  //ISR function
+  end_flag = true;  
+}
 
 void setup() {
   Serial.begin(1000000);
+
+  pinMode(12, INPUT);  // endstop
+  attachInterrupt(0, endstopPressed, FALLING);
+
   enc.setPin(enc_pin);
-  mot.setPins(pwm_pin, in1_pin, in2_pin);
-  mot.setDir(1);
   enc.setDir(1);
+
+  mot.setDir(1);
+  mot.setPins(pwm_pin, in1_pin, in2_pin);
 }
 
 void loop() {
@@ -26,24 +36,18 @@ void loop() {
   enc.measure();
   enc.printLaps(); 
   enc.printDir();
-  
-  if (i == 200){
-  	i = 30;
-    mot.toggleDir();
-    enc.setDir(mot.getDir());
+/*
+  if(!init_flag){
+    if(end_flag){
+      mot.stops();
+      init_flag = true;
+    }
   }
+  else*/
+      mot.setPwm(100);
 
 
-  else{
-  	if (j == 30){
-  		mot.setPwm(i);
-  		i++;
-  		j = 0;
-  	}
-  	else
-  		j++;
-  }
-  
+  Serial.println(init_flag);
+
   mot.move();
-
 }
