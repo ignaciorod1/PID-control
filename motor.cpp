@@ -44,7 +44,9 @@ void motor::move(){
 }
 
 void motor::stops(){
-	stop = 1;
+	digitalWrite(IN1_pin, 1);
+	digitalWrite(IN2_pin, 1);
+	pwm = 0;
 }
 
 void motor::resume(){

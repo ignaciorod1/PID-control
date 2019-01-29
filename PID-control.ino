@@ -10,7 +10,6 @@
 encoder enc;
 motor mot;
 
-bool init_flag = false;
 volatile bool end_flag = false;
 
 
@@ -18,10 +17,19 @@ void endstopPressed(){  //ISR function
   end_flag = true;  
 }
 
+void homing(){
+  if(end_flag)
+      mot.stops();
+  else
+    mot.setPwm(150);
+}
+
 void setup() {
   Serial.begin(1000000);
+
   pinMode(3, INPUT);  // endstop
   attachInterrupt(1, endstopPressed, FALLING);
+
   enc.setPin(enc_pin);
   mot.setPins(pwm_pin, in1_pin, in2_pin);
   mot.setDir(0);
@@ -34,15 +42,8 @@ void loop() {
   enc.printLaps(); 
   enc.printDir();
   
-  if(!init_flag){
-    if(end_flag){
-      mot.stops();
-      init_flag = true;
-    }
-  }
-  else
-    mot.setPwm(150);
-  
+  homing();
+
   mot.move();
 
 }
