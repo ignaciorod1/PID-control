@@ -10,15 +10,30 @@
 encoder enc;
 motor mot;
 
-int i = 50;
-int j = 0;
+volatile bool end_flag = false;
+
+
+void endstopPressed(){  //ISR function
+  end_flag = true;  
+}
+
+void homing(){
+  if(end_flag)
+      mot.stops();
+  else
+    mot.setPwm(150);
+}
 
 void setup() {
   Serial.begin(1000000);
+
+  pinMode(3, INPUT);  // endstop
+  attachInterrupt(1, endstopPressed, FALLING);
+
   enc.setPin(enc_pin);
   mot.setPins(pwm_pin, in1_pin, in2_pin);
-  mot.setDir(1);
-  enc.setDir(1);
+  mot.setDir(0);
+  enc.setDir(0);
 }
 
 void loop() {
@@ -27,23 +42,8 @@ void loop() {
   enc.printLaps(); 
   enc.printDir();
   
-  if (i == 200){
-  	i = 30;
-    mot.toggleDir();
-    enc.setDir(mot.getDir());
-  }
+  homing();
 
-
-  else{
-  	if (j == 30){
-  		mot.setPwm(i);
-  		i++;
-  		j = 0;
-  	}
-  	else
-  		j++;
-  }
-  
   mot.move();
 
 }
