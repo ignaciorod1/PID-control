@@ -16,29 +16,34 @@ int j = 0;
 void setup() {
   Serial.begin(1000000);
   enc.setPin(enc_pin);
-  mot.set_pins(pwm_pin, in1_pin, in2_pin);
-  mot.set_dir(1);
+  mot.setPins(pwm_pin, in1_pin, in2_pin);
+  mot.setDir(1);
+  enc.setDir(1);
 }
 
 void loop() {
 
   enc.measure();
   enc.printLaps(); 
+  enc.printDir();
+  
+  if (i == 200){
+  	i = 30;
+    mot.toggleDir();
+    enc.setDir(mot.getDir());
+  }
 
-  if (i == 250)
-  	i = 50;
 
   else{
-  	if (j == 10){
-  		mot.set_pwm(i);
+  	if (j == 30){
+  		mot.setPwm(i);
   		i++;
   		j = 0;
   	}
   	else
   		j++;
   }
-
-
+  
   mot.move();
 
 }

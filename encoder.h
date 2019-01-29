@@ -10,6 +10,7 @@ private:
 	bool inst_val;
 	int edge_count;
 	int lap;
+	bool dir;
 
 public:
 	encoder();
@@ -17,5 +18,8 @@ public:
 	void printLaps();
 	void printRPM();
 	void measure();
+	void setDir(bool d);
+	bool getDir();
 	int getLaps();
+	void printDir();
 };

@@ -13,10 +13,12 @@ private:
 
 public:
 	motor();
-	void set_pins(int pwm_pin, int IN1_pin, int IN2_pin);
-	void set_dir(int d);
-	void set_pwm(int pwm);
+	void setPins(int pwm_pin, int IN1_pin, int IN2_pin);
+	void setDir(int d);
+	void setPwm(int pwm);
 	void move();
 	void stops();
 	void resume();
+	bool getDir();
+	void toggleDir();
 };
