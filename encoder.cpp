@@ -56,6 +56,7 @@ void encoder::measure(){
 
     tbg = millis() - a;
     a = millis();
+    RPM = 60000/tbg;
 
     edge_count = 0;
   }
