@@ -62,7 +62,7 @@ void setup() {
 
   enc.setPin(enc_pin);
   mot.setPins(pwm_pin, in1_pin, in2_pin);
-  mot.setDir(1);
+  mot.setDir(0);
   enc.setDir(0);
   mot.setPwm(75);
 
