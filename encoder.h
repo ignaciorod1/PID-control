@@ -11,6 +11,10 @@ private:
 	int edge_count;
 	int lap;
 	bool dir;
+	int RPM;
+	unsigned long tbg;
+	unsigned long a;
+
 
 public:
 	encoder();
@@ -22,4 +26,5 @@ public:
 	bool getDir();
 	int getLaps();
 	void printDir();
+	int getRPM();
 };
