@@ -20,14 +20,14 @@ void endstopPressed(){  //ISR function
   end_flag = true;  
 }
 
-void homing(){
+void homing(){  // goes to 0 until it hits the endstop
   if(end_flag){
       if(r_flag){
         mot.stops();
         init_flag = true;
       }
-      else{
-        if(i == 1000)  r_flag = true;
+      else{      // frees the endstop switch so its not fully pressed counting 10000 cycles (a bit lazy, I know)
+        if(i == 10000)  r_flag = true;
         else{
           mot.setDir(1);
           enc.setDir(1);
@@ -60,22 +60,20 @@ void loop() {
   
   if(!init_flag)
     homing();
- Serial.print(i);
- Serial.print("   ");
- Serial.println(r_flag);
-/*
+
+
   else if(init_flag){
 
     mot.setDir(1);
     enc.setDir(1);
-
-    readVal = (int)Serial.read();
+    
+    readVal = Serial.parseInt();  // value from Serial monitor
     
     if (readVal >= 75 && readVal <= 255){
-     mot.setPwm(180);
+     // pid action
     }
   }
-*/
+
 
   mot.move();
 
