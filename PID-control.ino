@@ -1,3 +1,6 @@
+#include <Time.h>
+#include <TimeLib.h>
+
 #include <PID_v1.h>
 #include "encoder.h"
 #include "motor.h"
@@ -57,6 +60,7 @@ void loop() {
   enc.measure();
   //enc.printLaps(); 
   //enc.printDir();
+  enc.printRPM();
   
   if(!init_flag)
     homing();
